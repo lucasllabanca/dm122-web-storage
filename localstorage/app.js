@@ -23,7 +23,7 @@ form.addEventListener('submit', (event) => {
 function readFromStorage() {
     //const key = window.localStorage.getItem('key');
     //const value = window.localStorage.getItem('value');
-    document.querySelector('output').innerHTML += Object.keys(window.localStorage).map(htmlTemplate).join("");
+    document.querySelector('output').innerHTML = Object.keys(window.localStorage).map(htmlTemplate).join("");
 }
 
 function htmlTemplate(key) {
