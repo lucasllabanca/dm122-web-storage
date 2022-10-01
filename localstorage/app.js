@@ -31,8 +31,16 @@ function htmlTemplate(key) {
     return `
         <span>${key}</span>
         <span>${value}</span>
-    `
+        <span><img src="bin.svg" onclick="removeItem('${key}')" /></span>
+    `;
 }
 
-console.log(localStorage);
+function removeItem(key) {
+    if (confirm('Are you sure you want to remove?')) {
+        window.localStorage.removeItem(key);
+        readFromStorage();
+    }
+}
+
+//console.log(localStorage);
 readFromStorage();
