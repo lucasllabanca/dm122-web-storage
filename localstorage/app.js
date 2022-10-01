@@ -12,17 +12,27 @@ form.addEventListener('submit', (event) => {
 
     //console.log({ formData });
 
-    window.localStorage.setItem('key', formData.key);
-    window.localStorage.setItem('value', formData.value);
+    window.localStorage.setItem(formData.key, formData.value);
+
+    form.reset();
+    form.key.focus();
     readFromStorage();
-    
+
 });
 
 function readFromStorage() {
-    const key = window.localStorage.getItem('key');
-    const value = window.localStorage.getItem('value');
-    document.querySelector('output')
-    .textContent = JSON.stringify({key, value }, null, 2);
+    //const key = window.localStorage.getItem('key');
+    //const value = window.localStorage.getItem('value');
+    document.querySelector('output').innerHTML += Object.keys(window.localStorage).map(htmlTemplate).join("");
 }
 
+function htmlTemplate(key) {
+    const value = window.localStorage.getItem(key);
+    return `
+        <span>${key}</span>
+        <span>${value}</span>
+    `
+}
+
+console.log(localStorage);
 readFromStorage();
