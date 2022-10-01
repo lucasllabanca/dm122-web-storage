@@ -9,10 +9,10 @@ db.version(1).stores({
 db.on('populate', async () => {
     //Top-level await if out of async func, cause of module
     await db.pokemon.bulkPut([
-        { name: 'Bulbasaur', picture: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png' },
-        { name: 'Charmander', picture: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png' },
-        { name: 'Squirtle', picture: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png' },
-        { name: 'Pikachu', picture: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png' }
+        { name: 'Bulbasaur', picture: await downloadAndStoreImage('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png') },
+        { name: 'Charmander', picture: await downloadAndStoreImage('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png') },
+        { name: 'Squirtle', picture: await downloadAndStoreImage('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png') },
+        { name: 'Pikachu', picture: await downloadAndStoreImage('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png') }
     ]);
 });
 
@@ -40,10 +40,16 @@ function toHTML(poke) {
             <header>
                 <h2>#${poke.id}</h2>
             </header>
-            <img src="${poke.picture}" alt="${poke.name}" title="${poke.name}">
+            <img src="${URL.createObjectURL(poke.picture)}" alt="${poke.name}" title="${poke.name}">
             <footer class="grass">
             <span>${poke.name}</span>
             </footer>
         </div>
     `;
+}
+
+async function downloadAndStoreImage(imageUrl) {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    return blob;
 }
