@@ -32,7 +32,7 @@ db.open();
 const pokemonList = await db.pokemon.toArray();
 
 const pokeHTML = pokemonList.map(toHTML).join('');
-document.body.innerHTML = pokeHTML;
+document.body.innerHTML = `<div id="pokedex" class="pokedex">${pokeHTML}</div>`;
 
 function toHTML(poke) {
     return `
