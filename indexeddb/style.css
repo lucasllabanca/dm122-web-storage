@@ -19,6 +19,10 @@ h1 {
     flex-wrap: wrap;
 }
 
+.form {
+    padding: 4px;
+}
+
 .card {
     display: flex;
     flex-direction: column;
@@ -97,6 +101,11 @@ a:hover {
     text-decoration: underline;
     text-decoration-color: #C22E28;
     color: #C22E28;
+}
+
+input, select, button {
+    border-radius: 8px;
+    padding: 4px;
 }
 
 /* Peguei a relacao de tipos e core daqui: https://gist.github.com/apaleslimghost/0d25ec801ca4fc43317bcff298af43c3 */

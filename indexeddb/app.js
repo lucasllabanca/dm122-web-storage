@@ -36,7 +36,7 @@ function buildUrl(pokeNumber) {
 const pokemonList = await db.pokemon.toArray();
 
 const pokeHTML = pokemonList.map(toHTML).join('');
-document.body.innerHTML = `<div id="pokedex" class="pokedex">${pokeHTML}</div>`;
+document.getElementById('pokemon').innerHTML = `<div id="pokedex" class="pokedex">${pokeHTML}</div>`;
 
 function toHTML(poke) {
     return `
@@ -57,3 +57,13 @@ async function downloadImage(imageUrl) {
     const blob = await response.blob();
     return blob;
 }
+
+function saveFormData(event) {
+    event.preventDefault();
+    const form = event.target;
+    console.log(form.name.value);
+    console.log(form.pokeNumber.value);
+}
+
+const form = document.querySelector('form')
+form.addEventListener('submit', saveFormData)
