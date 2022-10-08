@@ -8,15 +8,13 @@ async function addToCache(requestUrl, response) {
 async function fetchFromNetwork(requestUrl) {
     const response = await fetch(requestUrl);
     addToCache(requestUrl, response.clone());
-    const pokeData = await response.json();
-    return pokeData;
+    return response;
 }
 
 async function fetchFromCache(requestUrl) {
     const cache = await caches.open(CACHE_KEY);
     const cachedResponse = await cache.match(requestUrl);
-    const pokeData = cachedResponse?.json();
-    return pokeData;
+    return cachedResponse || null;
 }
 
 async function showPokeData() {
@@ -24,7 +22,8 @@ async function showPokeData() {
     const details = document.querySelector('details');
     const pre = document.querySelector('pre');
     const requestUrl = 'https://pokeapi.co/api/v2/pokemon/282';
-    const pokeData = (await fetchFromCache(requestUrl) || await fetchFromNetwork(requestUrl));
+    const pokeResponse = (await fetchFromCache(requestUrl) || await fetchFromNetwork(requestUrl));
+    const pokeData = await pokeResponse.json();
     pre.textContent = JSON.stringify(pokeData, null, 2);
     img.src = pokeData.sprites.other['official-artwork'].front_default;
     img.alt = pokeData.name;
