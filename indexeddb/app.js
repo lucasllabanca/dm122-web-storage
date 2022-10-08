@@ -33,24 +33,29 @@ function buildUrl(pokeNumber) {
 //const pokemon = await db.pokemon.where('name').startsWithIgnoreCase('a').toArray();
 //console.log(pokemon);
 
-const pokemonList = await db.pokemon.toArray();
+async function retrieveData() {
 
-const pokeHTML = pokemonList.map(toHTML).join('');
-document.getElementById('pokemon').innerHTML = `<div id="pokedex" class="pokedex">${pokeHTML}</div>`;
-
-function toHTML(poke) {
-    return `
-        <div class="card grass">
-            <header>
-                <h2>#${poke.id}</h2>
-            </header>
-            <img src="${URL.createObjectURL(poke.picture)}" alt="${poke.name}" title="${poke.name}">
-            <footer class="grass">
-            <span>${poke.name}</span>
-            </footer>
-        </div>
-    `;
+    const pokemonList = await db.pokemon.toArray();
+    
+    const pokeHTML = pokemonList.map(toHTML).join('');
+    document.getElementById('pokemon').innerHTML = `<div id="pokedex" class="pokedex">${pokeHTML}</div>`;
+    
+    function toHTML(poke) {
+        return `
+            <div class="card grass">
+                <header>
+                    <h2>#${poke.id}</h2>
+                </header>
+                <img src="${URL.createObjectURL(poke.picture)}" alt="${poke.name}" title="${poke.name}">
+                <footer class="grass">
+                <span>${poke.name}</span>
+                </footer>
+            </div>
+        `;
+    }
 }
+
+retrieveData();
 
 async function downloadImage(imageUrl) {
     const response = await fetch(imageUrl);
@@ -65,7 +70,7 @@ async function saveFormData(event) {
         name: form.name.value,
         pokeNumber: form.pokeNumber.value
     });
-
+    retrieveData();
     form.reset();
     form.name.focus();
 }
