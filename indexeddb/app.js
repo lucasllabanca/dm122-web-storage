@@ -58,11 +58,26 @@ async function downloadImage(imageUrl) {
     return blob;
 }
 
-function saveFormData(event) {
+async function saveFormData(event) {
     event.preventDefault();
     const form = event.target;
-    console.log(form.name.value);
-    console.log(form.pokeNumber.value);
+    await saveOnDb({
+        name: form.name.value,
+        pokeNumber: form.pokeNumber.value
+    });
+
+    form.reset();
+    form.name.focus();
+}
+
+async function saveOnDb({ name, pokeNumber }) {
+    const pokemon = await db.pokemon.where('name').equals(name).toArray();
+    if (pokemon.length === 0) {
+        await db.pokemon.add({
+            name,
+            picture: await downloadImage(await buildUrl(pokeNumber))
+        });
+    }
 }
 
 const form = document.querySelector('form')
